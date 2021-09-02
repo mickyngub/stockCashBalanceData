@@ -61,17 +61,17 @@ for i in range(1,number_rows):
             tickerCPEndDateP4 = str(tickerSheet["E"+str(k+5)].value)
             tickerCPEndDateP5 = str(tickerSheet["E"+str(k+6)].value)
             
-            sheet["F"+str(i+1)] = tickerCPEndDateM5
-            sheet["G"+str(i+1)] = tickerCPEndDateM4
-            sheet["H"+str(i+1)] = tickerCPEndDateM3
-            sheet["I"+str(i+1)] = tickerCPEndDateM2
-            sheet["J"+str(i+1)] = tickerCPEndDateM1
-            sheet["K"+str(i+1)] = tickerCPEndDate
-            sheet["L"+str(i+1)] = tickerCPEndDateP1
-            sheet["M"+str(i+1)] = tickerCPEndDateP2
-            sheet["N"+str(i+1)] = tickerCPEndDateP3
-            sheet["O"+str(i+1)] = tickerCPEndDateP4
-            sheet["P"+str(i+1)] = tickerCPEndDateP5
+            sheet["F"+str(i+1)] = float(tickerCPEndDateM5)
+            sheet["G"+str(i+1)] = float(tickerCPEndDateM4)
+            sheet["H"+str(i+1)] = float(tickerCPEndDateM3)
+            sheet["I"+str(i+1)] = float(tickerCPEndDateM2)
+            sheet["J"+str(i+1)] = float(tickerCPEndDateM1)
+            sheet["K"+str(i+1)] = float(tickerCPEndDate)          
+            sheet["L"+str(i+1)] = float(tickerCPEndDateP1)
+            sheet["M"+str(i+1)] = float(tickerCPEndDateP2)
+            sheet["N"+str(i+1)] = float(tickerCPEndDateP3)
+            sheet["O"+str(i+1)] = float(tickerCPEndDateP4)
+            sheet["P"+str(i+1)] = float(tickerCPEndDateP5)
 
             print(tickerName + " " + tickerDateM5 + " " + tickerCPEndDateM5)
             print(tickerName + " " + tickerDateM4 + " " + tickerCPEndDateM4)
