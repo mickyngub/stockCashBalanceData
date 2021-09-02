@@ -1,13 +1,24 @@
 import openpyxl
+import csv
 import datetime
 from openpyxl.utils.cell import get_column_letter
 
 tickerList = ["7UP", "ABM", "ADD", "AJA", "ARIN"]
 replacement = "T02:00:00Z"
 
+for k in tickerList:
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    csvFile = "SET_" + k + ", 1D.csv"
+    with open(csvFile) as fileCSV:
+        reader = csv.reader(fileCSV, delimiter=",")
+        for row in reader:
+            ws.append(row)
+    wb.save("SET_" + k + ", 1D.xlsx")
+
 for j in tickerList:
-    fileOpen = "SET_" + j + ", 1D.xlsx"
-    workbook = openpyxl.load_workbook(filename=fileOpen)
+    xlsxFile = "SET_" + j + ", 1D.xlsx"
+    workbook = openpyxl.load_workbook(filename=xlsxFile)
     sheet = workbook.active
     number_rows = sheet.max_row
     number_columns = 1

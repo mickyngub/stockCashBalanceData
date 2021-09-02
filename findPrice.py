@@ -5,12 +5,13 @@ from openpyxl.utils.cell import get_column_letter
 
 workbook = openpyxl.load_workbook(filename="Main.xlsx")
 sheet = workbook.active
-number_rows = 2
+number_rows = 4
 number_columns = sheet.max_column
 
 
 
 for i in range(1,number_rows):
+    print("-------------------------------")
     tickerName = str(sheet[("A"+str(i+1))].value)
     endDateValue = str(sheet[("D"+str(i+1))].value)[:10]
     endDate = datetime.datetime.strptime(endDateValue, '%Y-%m-%d')
@@ -22,7 +23,7 @@ for i in range(1,number_rows):
     print(tickerName + " endDate " + strEndDate)
     
     tickerFileOpen = "cleanDate" + tickerName + ".xlsx"
-    print("Opening" + tickerFileOpen + "....")
+    print(".....Opening '" + tickerFileOpen + "'....")
 
     tickerWorkBook = openpyxl.load_workbook(filename=tickerFileOpen)
     tickerSheet = tickerWorkBook.active
@@ -34,7 +35,7 @@ for i in range(1,number_rows):
         tickerCell = "A" + str(k+1)
         # print('this is tickerdate', tickerDate, ' strEndDate', strEndDate)
         if tickerDate == strEndDate:
-            print('Found EndDate at Cell Number'+tickerCell)
+            # print('Found EndDate at Cell Number'+tickerCell)
 
             tickerDateM5 = str(tickerSheet["A"+str(k-4)].value)
             tickerDateM4 = str(tickerSheet["A"+str(k-3)].value)
@@ -66,7 +67,7 @@ for i in range(1,number_rows):
             print(tickerName + " " + tickerDateM3 + " " + tickerCPEndDateM3)
             print(tickerName + " " + tickerDateM2 + " " + tickerCPEndDateM2)
             print(tickerName + " " + tickerDateM1 + " " + tickerCPEndDateM1)
-            print("END Cash Balance" + tickerName + " " + tickerDate + " " + tickerCPEndDate)
+            print("END CashBalance " + tickerName + " " + tickerDate + " " + tickerCPEndDate)
             print(tickerName + " " + tickerDateP1 + " " + tickerCPEndDateP1)
             print(tickerName + " " + tickerDateP2 + " " + tickerCPEndDateP2)
             print(tickerName + " " + tickerDateP3 + " " + tickerCPEndDateP3)
@@ -75,6 +76,6 @@ for i in range(1,number_rows):
 
             break
         k += 1
-        
+    print("-------------------------------")
 
 # workbook.save("Main.xlsx")
