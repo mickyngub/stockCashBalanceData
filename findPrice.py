@@ -5,7 +5,7 @@ from openpyxl.utils.cell import get_column_letter
 
 workbook = openpyxl.load_workbook(filename="Main.xlsx")
 sheet = workbook.active
-number_rows = 3
+number_rows = sheet.max_row
 number_columns = sheet.max_column
 
 
@@ -61,17 +61,18 @@ for i in range(1,number_rows):
             tickerCPEndDateP4 = str(tickerSheet["E"+str(k+5)].value)
             tickerCPEndDateP5 = str(tickerSheet["E"+str(k+6)].value)
             
-            sheet["F"+str(i+1)] = float(tickerCPEndDateM5)
-            sheet["G"+str(i+1)] = float(tickerCPEndDateM4)
-            sheet["H"+str(i+1)] = float(tickerCPEndDateM3)
-            sheet["I"+str(i+1)] = float(tickerCPEndDateM2)
-            sheet["J"+str(i+1)] = float(tickerCPEndDateM1)
-            sheet["K"+str(i+1)] = float(tickerCPEndDate)          
-            sheet["L"+str(i+1)] = float(tickerCPEndDateP1)
-            sheet["M"+str(i+1)] = float(tickerCPEndDateP2)
-            sheet["N"+str(i+1)] = float(tickerCPEndDateP3)
-            sheet["O"+str(i+1)] = float(tickerCPEndDateP4)
-            sheet["P"+str(i+1)] = float(tickerCPEndDateP5)
+            
+            sheet["F"+str(i+1)] = float(tickerCPEndDateM5) if tickerCPEndDateM5 != "None" else "DNE"
+            sheet["G"+str(i+1)] = float(tickerCPEndDateM4) if tickerCPEndDateM4 != "None" else "DNE"
+            sheet["H"+str(i+1)] = float(tickerCPEndDateM3) if tickerCPEndDateM3 != "None" else "DNE"
+            sheet["I"+str(i+1)] = float(tickerCPEndDateM2) if tickerCPEndDateM2 != "None" else "DNE"
+            sheet["J"+str(i+1)] = float(tickerCPEndDateM1) if tickerCPEndDateM1 != "None" else "DNE"
+            sheet["K"+str(i+1)] = float(tickerCPEndDate) if tickerCPEndDate != "None" else "DNE"     
+            sheet["L"+str(i+1)] = float(tickerCPEndDateP1) if tickerCPEndDateP1 != "None" else "DNE"
+            sheet["M"+str(i+1)] = float(tickerCPEndDateP2) if tickerCPEndDateP2 != "None" else "DNE"
+            sheet["N"+str(i+1)] = float(tickerCPEndDateP3) if tickerCPEndDateP3 != "None" else "DNE"
+            sheet["O"+str(i+1)] = float(tickerCPEndDateP4) if tickerCPEndDateP4 != "None" else "DNE"
+            sheet["P"+str(i+1)] = float(tickerCPEndDateP5) if tickerCPEndDateP5 != "None" else "DNE"
 
             print(tickerName + " " + tickerDateM5 + " " + tickerCPEndDateM5)
             print(tickerName + " " + tickerDateM4 + " " + tickerCPEndDateM4)
@@ -83,6 +84,7 @@ for i in range(1,number_rows):
             print(tickerName + " " + tickerDateP2 + " " + tickerCPEndDateP2)
             print(tickerName + " " + tickerDateP3 + " " + tickerCPEndDateP3)
             print(tickerName + " " + tickerDateP4 + " " + tickerCPEndDateP4)
+            workbook.save("Main.xlsx")
 
             break
         k += 1

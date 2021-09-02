@@ -3,8 +3,17 @@ import csv
 import datetime
 from openpyxl.utils.cell import get_column_letter
 
-tickerList = ["7UP", "ABM", "ADD", "AJA", "ARIN"]
+# tickerList = ["7UP", "ABM", "ADD", "AJA", "ARIN"]
 replacement = "T02:00:00Z"
+
+# read stock list from .txt file
+StockCashBalanceList = open('StockCashBalanceList.txt', 'r')
+stock = StockCashBalanceList.read()
+stockList = stock.split(",")
+tickerList = []
+for list in stockList:
+    tickerList.append(list[4:])
+print(tickerList)
 
 for k in tickerList:
     wb = openpyxl.Workbook()
