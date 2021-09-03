@@ -7,7 +7,7 @@ from openpyxl.utils.cell import get_column_letter
 replacement = "T02:00:00Z"
 
 # read stock list from .txt file
-StockCashBalanceList = open('StockCashBalanceList.txt', 'r')
+StockCashBalanceList = open('Thai Stocks Cash Balance JAN18.txt', 'r')
 stock = StockCashBalanceList.read()
 stockList = stock.split(",")
 tickerList = []

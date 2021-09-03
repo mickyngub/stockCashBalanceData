@@ -3,8 +3,8 @@ import datetime
 from openpyxl.utils.cell import get_column_letter
 
 
-workbook = openpyxl.load_workbook(filename="CashBalanceCP.xlsx")
-sheet = workbook.active
+workbook = openpyxl.load_workbook(filename="Main.xlsx")
+sheet = workbook["CashBalanceJAN18"]
 number_rows = sheet.max_row
 number_columns = sheet.max_column
 
@@ -96,7 +96,7 @@ def findClosePrice():
                     print(tickerName + " " + tickerDateP3 + " " + tickerCPEndDateP3)
                     print(tickerName + " " + tickerDateP4 + " " + tickerCPEndDateP4)
                     print(tickerName + " " + tickerDateP5 + " " + tickerCPEndDateP5)
-                    workbook.save("CashBalanceCP.xlsx")
+                    workbook.save("CashBalanceCPJAN18.xlsx")
 
                     break
                 k += 1
@@ -105,7 +105,7 @@ def findClosePrice():
             print("Not a DATE")
             break
 
-    workbook.save("CashBalanceCP.xlsx")
+    workbook.save("CashBalanceCPJAN18.xlsx")
 
 ################
 
@@ -191,7 +191,7 @@ def findOpenPrice():
                     print(tickerName + " " + tickerDateP3 + " " + tickerOPEndDateP3)
                     print(tickerName + " " + tickerDateP4 + " " + tickerOPEndDateP4)
                     print(tickerName + " " + tickerDateP5 + " " + tickerOPEndDateP5)
-                    workbook.save("CashBalanceOP.xlsx")
+                    workbook.save("CashBalanceOPJAN18.xlsx")
 
                     break
                 k += 1
@@ -199,7 +199,7 @@ def findOpenPrice():
         except:
             print("Not a DATE")
             break
-    workbook.save("CashBalanceOP.xlsx")
+    workbook.save("CashBalanceOPJAN18.xlsx")
     
 userInput = input("OpenPrice / ClosePrice? ")
 if userInput == "ClosePrice":
