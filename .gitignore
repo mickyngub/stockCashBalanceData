@@ -3,3 +3,6 @@
 
 #Ignore all pdf file
 *.csv
+
+#Ignore all txtfile
+*.txt
