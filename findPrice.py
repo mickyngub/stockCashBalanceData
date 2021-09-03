@@ -42,12 +42,7 @@ def findClosePrice():
 
                 k = 0
                 while k < tickerNumber_rows:
-                    
-                        
                     tickerDate = str(tickerSheet["A"+str(k+1)].value)
-                    print('k value', k)
-                    print('loopIndex value', loopIndex)
-                    print('NORMAL ' + tickerDate)
                     strEndDateValue = strEndDate
                     if loopIndex > 0:
                         tempDate = datetime.datetime.strptime(strEndDate, '%d/%m/%Y') + datetime.timedelta(days=-loopIndex)
@@ -57,10 +52,7 @@ def findClosePrice():
                         # tickerDateDateTime = datetime.datetime.strptime(tickerDate, '%Y-%m-%d')
                         # tickerDateMinus1 = tickerDateDateTime + datetime.timedelta(days=-1)
                         # tickerDate = tickerDateMinus1.strftime('%d/%m/%Y')
-                        print('MINUS ' + strEndDateValue)
 
-                    #In case the endDate is on the holiday, the program cannot find the tickerDate which equals to strEndDate
-                    
                     
                     # tickerCell = "A" + str(k+1)
                     # print('this is tickerdate', tickerDate, ' strEndDate', strEndDate)
@@ -131,7 +123,6 @@ def findClosePrice():
                     k += 1
 
                 loopIndex += 1
-
                 print("-------------------------------")
 
         except Exception as e: 
@@ -154,6 +145,8 @@ def findOpenPrice():
 
             strEndDate = endDate.strftime('%d/%m/%Y')
 
+            currentDateOBJ = datetime.datetime.strptime(CURRENTDATE, "%d/%m/%Y")
+            endDateOBJ = datetime.datetime.strptime(strEndDate, "%d/%m/%Y")
             print(tickerName + " cashBalance endDate " + strEndDate)
 
             tickerFileOpen = "cleanDate" + tickerName + ".xlsx"
@@ -163,80 +156,104 @@ def findOpenPrice():
             tickerSheet = tickerWorkBook.active
             tickerNumber_rows = tickerSheet.max_row
 
-            k = 0
-            while k < tickerNumber_rows:
-                tickerDate = str(tickerSheet["A"+str(k+1)].value)
+            loopIndex = 0
+            foundDate = False
+            while foundDate == False:
+                #if endDate is in the future, break the loop || loop more than 6 times 
 
-                if tickerDate == strEndDate:
-                    tickerDateM7 = str(tickerSheet["A"+str(k-6)].value)
-                    tickerDateM6 = str(tickerSheet["A"+str(k-5)].value)
-                    tickerDateM5 = str(tickerSheet["A"+str(k-4)].value)
-                    tickerDateM4 = str(tickerSheet["A"+str(k-3)].value)
-                    tickerDateM3 = str(tickerSheet["A"+str(k-2)].value)
-                    tickerDateM2 = str(tickerSheet["A"+str(k-1)].value)
-                    tickerDateM1 = str(tickerSheet["A"+str(k)].value)
-                    tickerDate = str(tickerSheet["A"+str(k+1)].value)
-                    tickerDateP1 = str(tickerSheet["A"+str(k+2)].value)
-                    tickerDateP2 = str(tickerSheet["A"+str(k+3)].value)
-                    tickerDateP3 = str(tickerSheet["A"+str(k+4)].value)
-                    tickerDateP4 = str(tickerSheet["A"+str(k+5)].value)
-                    tickerDateP5 = str(tickerSheet["A"+str(k+6)].value)
-
-                    tickerOPEndDateM7 = str(tickerSheet["B"+str(k-6)].value)
-                    tickerOPEndDateM6 = str(tickerSheet["B"+str(k-5)].value)
-                    tickerOPEndDateM5 = str(tickerSheet["B"+str(k-4)].value)
-                    tickerOPEndDateM4 = str(tickerSheet["B"+str(k-3)].value)
-                    tickerOPEndDateM3 = str(tickerSheet["B"+str(k-2)].value)
-                    tickerOPEndDateM2 = str(tickerSheet["B"+str(k-1)].value)
-                    tickerOPEndDateM1 = str(tickerSheet["B"+str(k)].value)
-                    tickerOPEndDate = str(tickerSheet["B"+str(k+1)].value)
-                    tickerOPEndDateP1 = str(tickerSheet["B"+str(k+2)].value)
-                    tickerOPEndDateP2 = str(tickerSheet["B"+str(k+3)].value)
-                    tickerOPEndDateP3 = str(tickerSheet["B"+str(k+4)].value)
-                    tickerOPEndDateP4 = str(tickerSheet["B"+str(k+5)].value)
-                    tickerOPEndDateP5 = str(tickerSheet["B"+str(k+6)].value)
-
-                    sheet["F"+str(i+1)] = float(tickerOPEndDateM7) if tickerOPEndDateM7 != "None" else "DNE"
-                    sheet["G"+str(i+1)] = float(tickerOPEndDateM6) if tickerOPEndDateM6 != "None" else "DNE"
-                    sheet["H"+str(i+1)] = float(tickerOPEndDateM5) if tickerOPEndDateM5 != "None" else "DNE"
-                    sheet["I"+str(i+1)] = float(tickerOPEndDateM4) if tickerOPEndDateM4 != "None" else "DNE"
-                    sheet["J"+str(i+1)] = float(tickerOPEndDateM3) if tickerOPEndDateM3 != "None" else "DNE"
-                    sheet["K"+str(i+1)] = float(tickerOPEndDateM2) if tickerOPEndDateM2 != "None" else "DNE"     
-                    sheet["L"+str(i+1)] = float(tickerOPEndDateM1) if tickerOPEndDateM1 != "None" else "DNE"
-                    sheet["M"+str(i+1)] = float(tickerOPEndDate) if tickerOPEndDate != "None" else "DNE"
-                    sheet["N"+str(i+1)] = float(tickerOPEndDateP1) if tickerOPEndDateP1 != "None" else "DNE"
-                    sheet["O"+str(i+1)] = float(tickerOPEndDateP2) if tickerOPEndDateP2 != "None" else "DNE"
-                    sheet["P"+str(i+1)] = float(tickerOPEndDateP3) if tickerOPEndDateP3 != "None" else "DNE"
-                    sheet["Q"+str(i+1)] = float(tickerOPEndDateP4) if tickerOPEndDateP4 != "None" else "DNE"
-                    sheet["R"+str(i+1)] = float(tickerOPEndDateP5) if tickerOPEndDateP5 != "None" else "DNE"
-                  
-                    print(tickerName + " " + tickerDateM7 + " " + tickerOPEndDateM7)
-                    print(tickerName + " " + tickerDateM6 + " " + tickerOPEndDateM6)
-                    print(tickerName + " " + tickerDateM5 + " " + tickerOPEndDateM5)
-                    print(tickerName + " " + tickerDateM4 + " " + tickerOPEndDateM4)
-                    print(tickerName + " " + tickerDateM3 + " " + tickerOPEndDateM3)
-                    print(tickerName + " " + tickerDateM2 + " " + tickerOPEndDateM2)
-                    print(tickerName + " " + tickerDateM1 + " " + tickerOPEndDateM1)
-                    print("###")
-                    print("END CashBalance " + tickerName + " " + tickerDate + " " + tickerOPEndDate)
-                    print("###")
-                    print(tickerName + " " + tickerDateP1 + " " + tickerOPEndDateP1)
-                    print(tickerName + " " + tickerDateP2 + " " + tickerOPEndDateP2)
-                    print(tickerName + " " + tickerDateP3 + " " + tickerOPEndDateP3)
-                    print(tickerName + " " + tickerDateP4 + " " + tickerOPEndDateP4)
-                    print(tickerName + " " + tickerDateP5 + " " + tickerOPEndDateP5)
-                    workbook.save("CashBalanceOPJAN18.xlsx")
-
+                if foundDate == True or currentDateOBJ < endDateOBJ or loopIndex > 6:
                     break
-                k += 1
-            print("-------------------------------")
-        except:
+
+                
+                k = 0
+                while k < tickerNumber_rows:
+                    tickerDate = str(tickerSheet["A"+str(k+1)].value)
+                    strEndDateValue = strEndDate
+                    if loopIndex > 0:
+                        tempDate = datetime.datetime.strptime(strEndDate, "%d/%m/%Y") + datetime.timedelta(days=-loopIndex)
+                        strEndDateValue = tempDate.strftime('%d/%m/%Y')
+
+                    if tickerDate == strEndDateValue:
+                        foundDate = True
+                        tickerDateM7 = str(tickerSheet["A"+str(k-6)].value)
+                        tickerDateM6 = str(tickerSheet["A"+str(k-5)].value)
+                        tickerDateM5 = str(tickerSheet["A"+str(k-4)].value)
+                        tickerDateM4 = str(tickerSheet["A"+str(k-3)].value)
+                        tickerDateM3 = str(tickerSheet["A"+str(k-2)].value)
+                        tickerDateM2 = str(tickerSheet["A"+str(k-1)].value)
+                        tickerDateM1 = str(tickerSheet["A"+str(k)].value)
+                        tickerDate0 = str(tickerSheet["A"+str(k+1)].value)
+                        tickerDateP1 = str(tickerSheet["A"+str(k+2)].value)
+                        tickerDateP2 = str(tickerSheet["A"+str(k+3)].value)
+                        tickerDateP3 = str(tickerSheet["A"+str(k+4)].value)
+                        tickerDateP4 = str(tickerSheet["A"+str(k+5)].value)
+                        tickerDateP5 = str(tickerSheet["A"+str(k+6)].value)
+
+                        tickerOPEndDateM7 = str(tickerSheet["B"+str(k-6)].value)
+                        tickerOPEndDateM6 = str(tickerSheet["B"+str(k-5)].value)
+                        tickerOPEndDateM5 = str(tickerSheet["B"+str(k-4)].value)
+                        tickerOPEndDateM4 = str(tickerSheet["B"+str(k-3)].value)
+                        tickerOPEndDateM3 = str(tickerSheet["B"+str(k-2)].value)
+                        tickerOPEndDateM2 = str(tickerSheet["B"+str(k-1)].value)
+                        tickerOPEndDateM1 = str(tickerSheet["B"+str(k)].value)
+                        tickerOPEndDate = str(tickerSheet["B"+str(k+1)].value)
+                        tickerOPEndDateP1 = str(tickerSheet["B"+str(k+2)].value)
+                        tickerOPEndDateP2 = str(tickerSheet["B"+str(k+3)].value)
+                        tickerOPEndDateP3 = str(tickerSheet["B"+str(k+4)].value)
+                        tickerOPEndDateP4 = str(tickerSheet["B"+str(k+5)].value)
+                        tickerOPEndDateP5 = str(tickerSheet["B"+str(k+6)].value)
+
+                        sheet["F"+str(i+1)] = float(tickerOPEndDateM7) if tickerOPEndDateM7 != "None" else "DNE"
+                        sheet["G"+str(i+1)] = float(tickerOPEndDateM6) if tickerOPEndDateM6 != "None" else "DNE"
+                        sheet["H"+str(i+1)] = float(tickerOPEndDateM5) if tickerOPEndDateM5 != "None" else "DNE"
+                        sheet["I"+str(i+1)] = float(tickerOPEndDateM4) if tickerOPEndDateM4 != "None" else "DNE"
+                        sheet["J"+str(i+1)] = float(tickerOPEndDateM3) if tickerOPEndDateM3 != "None" else "DNE"
+                        sheet["K"+str(i+1)] = float(tickerOPEndDateM2) if tickerOPEndDateM2 != "None" else "DNE"     
+                        sheet["L"+str(i+1)] = float(tickerOPEndDateM1) if tickerOPEndDateM1 != "None" else "DNE"
+                        sheet["M"+str(i+1)] = float(tickerOPEndDate) if tickerOPEndDate != "None" else "DNE"
+                        sheet["N"+str(i+1)] = float(tickerOPEndDateP1) if tickerOPEndDateP1 != "None" else "DNE"
+                        sheet["O"+str(i+1)] = float(tickerOPEndDateP2) if tickerOPEndDateP2 != "None" else "DNE"
+                        sheet["P"+str(i+1)] = float(tickerOPEndDateP3) if tickerOPEndDateP3 != "None" else "DNE"
+                        sheet["Q"+str(i+1)] = float(tickerOPEndDateP4) if tickerOPEndDateP4 != "None" else "DNE"
+                        sheet["R"+str(i+1)] = float(tickerOPEndDateP5) if tickerOPEndDateP5 != "None" else "DNE"
+                    
+                        print(tickerName + " " + tickerDateM7 + " " + tickerOPEndDateM7)
+                        print(tickerName + " " + tickerDateM6 + " " + tickerOPEndDateM6)
+                        print(tickerName + " " + tickerDateM5 + " " + tickerOPEndDateM5)
+                        print(tickerName + " " + tickerDateM4 + " " + tickerOPEndDateM4)
+                        print(tickerName + " " + tickerDateM3 + " " + tickerOPEndDateM3)
+                        print(tickerName + " " + tickerDateM2 + " " + tickerOPEndDateM2)
+                        print(tickerName + " " + tickerDateM1 + " " + tickerOPEndDateM1)
+                        print("###")
+                        print("END CashBalance " + tickerName + " " + tickerDate0 + " " + tickerOPEndDate)
+                        print("###")
+                        print(tickerName + " " + tickerDateP1 + " " + tickerOPEndDateP1)
+                        print(tickerName + " " + tickerDateP2 + " " + tickerOPEndDateP2)
+                        print(tickerName + " " + tickerDateP3 + " " + tickerOPEndDateP3)
+                        print(tickerName + " " + tickerDateP4 + " " + tickerOPEndDateP4)
+                        print(tickerName + " " + tickerDateP5 + " " + tickerOPEndDateP5)
+                        workbook.save("CashBalanceOPJAN18.xlsx")
+                        break
+                    k += 1
+            
+                loopIndex += 1
+                print("-------------------------------")
+        except Exception as e:
+            print(e)
             print("Not a DATE")
             break
     workbook.save("CashBalanceOPJAN18.xlsx")
-    
-userInput = input("OpenPrice / ClosePrice? ")
-if userInput == "cp":
-    findClosePrice()
-elif userInput == "op":
-    findOpenPrice()
+
+#########
+
+getUserInput = False
+while not getUserInput:
+    userInput = input("OpenPrice / ClosePrice / exit ? ")
+    if userInput == "cp":
+        getUserInput = True
+        findClosePrice()
+    elif userInput == "op":
+        getUserInput = True
+        findOpenPrice()
+    elif userInput == "exit":
+        getUserInput = True
