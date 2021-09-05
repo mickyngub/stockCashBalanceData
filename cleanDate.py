@@ -19,9 +19,14 @@ for k in tickerList:
     wb = openpyxl.Workbook()
     ws = wb.active
     csvFile = "SET_" + k + ", 1D.csv"
-    with open(csvFile) as fileCSV:
+    with open(csvFile, errors='ignore') as fileCSV:
         reader = csv.reader(fileCSV, delimiter=",")
         for row in reader:
+            #There is an encoding problem when exporting chart data from tradingview
+            if(row[7] == "Mkt ัap"):
+                row[7] = "Mkt cap"
+                print(row)
+
             ws.append(row)
     wb.save("SET_" + k + ", 1D.xlsx")
 
