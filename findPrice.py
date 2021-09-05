@@ -3,7 +3,7 @@ import datetime
 from openpyxl.utils.cell import get_column_letter
 
 
-workbook = openpyxl.load_workbook(filename="Main.xlsx")
+workbook = openpyxl.load_workbook(filename="testMKTCAPCashBalanceCPJAN18.xlsx")
 sheet = workbook["CashBalanceJAN18"]
 number_rows = sheet.max_row
 number_columns = sheet.max_column
@@ -118,7 +118,8 @@ def findClosePrice():
                         print(tickerName + " " + tickerDateP4 + " " + tickerCPEndDateP4)
                         print(tickerName + " " + tickerDateP5 + " " + tickerCPEndDateP5)
 
-                        workbook.save("CashBalanceCPJAN18.xlsx")
+                        workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+
                         break
                     k += 1
 
@@ -130,7 +131,8 @@ def findClosePrice():
             print("Not a DATE")
             break
 
-    workbook.save("CashBalanceCPJAN18.xlsx")
+    workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+
 
 ################
 
@@ -244,16 +246,183 @@ def findOpenPrice():
             break
     workbook.save("CashBalanceOPJAN18.xlsx")
 
+def addMktCap():
+
+    for i in range(1, number_rows):
+        print("--------------adding Market Capitalization--------------")
+        try:
+            tickerName = str(sheet[("A"+str(i+1))].value)
+            endDateValue = str(sheet[("D"+str(i+1))].value)[:10]
+            endDate = datetime.datetime.strptime(endDateValue, '%Y-%m-%d')
+            # endDateM5 = endDate + datetime.timedelta(days=-5)
+
+            strEndDate = endDate.strftime('%d/%m/%Y')
+            # strEndDateM5 = endDateM5.strftime('%d/%m/%Y')
+            currentDateOBJ = datetime.datetime.strptime(CURRENTDATE, "%d/%m/%Y")
+            endDateOBJ = datetime.datetime.strptime(strEndDate, "%d/%m/%Y")
+            print(tickerName + " cashBalance endDate " + strEndDate)
+            
+            tickerFileOpen = "cleanDate" + tickerName + ".xlsx"
+            print(".....Opening '" + tickerFileOpen + "'....")
+
+            tickerWorkBook = openpyxl.load_workbook(filename=tickerFileOpen)
+            tickerSheet = tickerWorkBook.active
+            tickerNumber_rows = tickerSheet.max_row
+            # tickerNumber_columns = tickerSheet.max_column
+            loopIndex = 0
+            foundDate = False
+            while foundDate == False:
+                #if endDate is in the future, break the loop || loop more than 6 times 
+                if foundDate == True or currentDateOBJ < endDateOBJ or loopIndex > 6:
+                    break
+
+                k = 0
+                while k < tickerNumber_rows:
+                    tickerDate = str(tickerSheet["A"+str(k+1)].value)
+                    strEndDateValue = strEndDate
+                    if loopIndex > 0:
+                        tempDate = datetime.datetime.strptime(strEndDate, '%d/%m/%Y') + datetime.timedelta(days=-loopIndex)
+                        strEndDateValue = tempDate.strftime('%d/%m/%Y')
+
+                        # strEndDate = str(tickerSheet["A"+str(k+1)].value)[:10]
+                        # tickerDateDateTime = datetime.datetime.strptime(tickerDate, '%Y-%m-%d')
+                        # tickerDateMinus1 = tickerDateDateTime + datetime.timedelta(days=-1)
+                        # tickerDate = tickerDateMinus1.strftime('%d/%m/%Y')
+
+                    
+                    # tickerCell = "A" + str(k+1)
+                    # print('this is tickerdate', tickerDate, ' strEndDate', strEndDate)
+                    if tickerDate == strEndDateValue:
+                        foundDate = True
+
+                        # print('Found EndDate at Cell Number'+tickerCell)
+                       
+                        tickerDate0 = str(tickerSheet["A"+str(k+1)].value)
+
+                        tickerMktCap = str(tickerSheet["H"+str(k+1)].value)
+           
+                        sheet["AQ"+str(i+1)] = float(tickerMktCap) if tickerMktCap != "NaN" else "DNE"
+                
+                        
+ 
+                        print("###")
+                        print("Market Cap of " + tickerName + " on " + tickerDate0 + " is " + tickerMktCap)
+                        print("###")
+                 
+                        workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+                        break
+                    k += 1
+
+                loopIndex += 1
+                print("-------------------------------")
+
+        except Exception as e: 
+            print(e)
+            print("An error occured")
+            break
+
+    workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+
+def addFreeFloat():
+    
+    for i in range(1, number_rows):
+        print("--------------adding Free Float Percentage--------------")
+        try:
+            tickerName = str(sheet[("A"+str(i+1))].value)
+            endDateValue = str(sheet[("D"+str(i+1))].value)[:10]
+            endDate = datetime.datetime.strptime(endDateValue, '%Y-%m-%d')
+            # endDateM5 = endDate + datetime.timedelta(days=-5)
+
+            strEndDate = endDate.strftime('%d/%m/%Y')
+            # strEndDateM5 = endDateM5.strftime('%d/%m/%Y')
+            currentDateOBJ = datetime.datetime.strptime(CURRENTDATE, "%d/%m/%Y")
+            endDateOBJ = datetime.datetime.strptime(strEndDate, "%d/%m/%Y")
+            print(tickerName + " cashBalance endDate " + strEndDate)
+            
+            tickerFileOpen = "cleanDate" + tickerName + ".xlsx"
+            print(".....Opening '" + tickerFileOpen + "'....")
+
+            tickerWorkBook = openpyxl.load_workbook(filename=tickerFileOpen)
+            tickerSheet = tickerWorkBook.active
+            tickerNumber_rows = tickerSheet.max_row
+            # tickerNumber_columns = tickerSheet.max_column
+            loopIndex = 0
+            foundDate = False
+            while foundDate == False:
+                #if endDate is in the future, break the loop || loop more than 6 times 
+                if foundDate == True or currentDateOBJ < endDateOBJ or loopIndex > 6:
+                    break
+
+                k = 0
+                while k < tickerNumber_rows:
+                    tickerDate = str(tickerSheet["A"+str(k+1)].value)
+                    strEndDateValue = strEndDate
+                    if loopIndex > 0:
+                        tempDate = datetime.datetime.strptime(strEndDate, '%d/%m/%Y') + datetime.timedelta(days=-loopIndex)
+                        strEndDateValue = tempDate.strftime('%d/%m/%Y')
+
+                        # strEndDate = str(tickerSheet["A"+str(k+1)].value)[:10]
+                        # tickerDateDateTime = datetime.datetime.strptime(tickerDate, '%Y-%m-%d')
+                        # tickerDateMinus1 = tickerDateDateTime + datetime.timedelta(days=-1)
+                        # tickerDate = tickerDateMinus1.strftime('%d/%m/%Y')
+
+                    
+                    # tickerCell = "A" + str(k+1)
+                    # print('this is tickerdate', tickerDate, ' strEndDate', strEndDate)
+                    if tickerDate == strEndDateValue:
+                        foundDate = True
+
+                        # print('Found EndDate at Cell Number'+tickerCell)
+                       
+                        tickerDate0 = str(tickerSheet["A"+str(k+1)].value)
+                        tickerFloatSharesOutstanding = float(tickerSheet["J" + str(k+1)].value)
+                        tickerCommonSharesOutstanding = float(tickerSheet["K"+str(k+1)].value)
+                        tickerFreeFloatPercentage = "NaN"
+                        if tickerFloatSharesOutstanding != "NaN" and tickerCommonSharesOutstanding != "NaN":
+                            tickerFreeFloatPercentage = tickerFloatSharesOutstanding/tickerCommonSharesOutstanding
+                       
+           
+                        sheet["AR"+str(i+1)] = float(tickerFreeFloatPercentage) if tickerFreeFloatPercentage != "NaN" else "DNE"
+                
+                        print("###")
+                        print("Free Float Percentage of " + tickerName + " on " + tickerDate0 + " is " + str(tickerFreeFloatPercentage))
+                        print("###")
+                 
+                        workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+                        break
+                    k += 1
+
+                loopIndex += 1
+                print("-------------------------------")
+
+        except Exception as e: 
+            print(e)
+            print("An error occured")
+            break
+
+    workbook.save("testMKTCAPCashBalanceCPJAN18.xlsx")
+
 #########
 
 getUserInput = False
 while not getUserInput:
-    userInput = input("OpenPrice / ClosePrice / exit ? ")
+    userInput = input("cp / op / mktcap / ff / ccmktcapff ? ")
     if userInput == "cp":
         getUserInput = True
         findClosePrice()
     elif userInput == "op":
         getUserInput = True
         findOpenPrice()
+    elif userInput =="mktcap":
+        getUserInput = True
+        addMktCap()
+    elif userInput == "ff":
+        getUserInput = True
+        addFreeFloat()
     elif userInput == "exit":
         getUserInput = True
+    elif userInput == "ccmktcapff":
+        getUserInput = True
+        findClosePrice()
+        addMktCap()
+        addFreeFloat()
