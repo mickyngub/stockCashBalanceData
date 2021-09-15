@@ -6,3 +6,5 @@
 
 #Ignore all txtfile
 *.txt
+
+client_secret.json
